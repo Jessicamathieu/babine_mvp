@@ -1,96 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Babine Assistante – MVP</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#ff2fb3">
+  <style>
+    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:#fff7fc;color:#222}
+    header{position:sticky;top:0;background:#ffffffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid #ffe0f2;padding:10px 12px;display:flex;align-items:center;gap:10px}
+    .avatar{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #ffd6ef, #ff2fb3);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    h1{font-size:18px;margin:0}
+    .bar{display:flex;gap:8px;margin-left:auto}
+    button,select,input,textarea{font:inherit}
+    .btn{border:1px solid #ff87d1;background:#ff2fb3;color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer}
+    .btn.alt{background:#fff;color:#ff2fb3}
+    .tabs{display:flex;gap:6px;margin:10px 12px}
+    .tab{padding:6px 10px;border:1px solid #ffd0ea;border-radius:999px;background:#fff;cursor:pointer}
+    .tab.active{background:#ff2fb3;color:#fff;border-color:#ff2fb3}
+    .wrap{padding:12px;display:grid;gap:12px}
+    .card{background:#fff;border:1px solid #ffe0f2;border-radius:12px;padding:12px}
+    .grid{display:grid;gap:8px}
+    .grid.cols-2{grid-template-columns:1fr 1fr}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-7{grid-template-columns:repeat(7,1fr)}
+    .slot{border:1px dashed #ffd0ea;border-radius:8px;min-height:64px;padding:6px;font-size:12px}
+    .event{border-radius:8px;padding:6px;margin-bottom:6px;color:#111;background:#e6f0ff;border-left:6px solid #2743e3}
+    .event.small{font-size:12px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #eee;background:#fafafa;font-size:12px}
+    .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    label{font-size:12px;color:#666}
+    input[type="time"],input[type="date"],input[type='text'],input[type='email'],input[type='tel'],textarea,select{width:100%;box-sizing:border-box;border:1px solid #ffd0ea;border-radius:10px;padding:8px;background:#fff}
+    .k{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid #ddd;margin-right:6px;vertical-align:middle}
+    footer{padding:30px 12px;color:#999;text-align:center}
+    .hint{font-size:12px;color:#777}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="avatar">💖</div>
+    <div>
+      <h1>Babine Assistante – Agenda & Clients</h1>
+      <div class="hint">Ajoute / modifie des rendez-vous, clients, services (stockés dans ton téléphone).</div>
+    </div>
+    <div class="bar">
+      <button class="btn alt" onclick="exportAll()">Exporter</button>
+      <button class="btn" onclick="installPWA()">Installer</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <div id="tab-day" class="tab active" onclick="switchView('day')">Jour</div>
+    <div id="tab-week" class="tab" onclick="switchView('week')">Semaine</div>
+    <div id="tab-month" class="tab" onclick="switchView('month')">Mois</div>
+    <div id="tab-crm" class="tab" onclick="switchView('crm')">Clients</div>
+    <div id="tab-services" class="tab" onclick="switchView('services')">Services</div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <input type="date" id="datePicker">
+        <button class="btn alt" onclick="newAppt()">+ Rendez-vous</button>
+        <button class="btn alt" onclick="newClient()">+ Client</button>
+        <button class="btn alt" onclick="newService()">+ Service</button>
+        <span class="pill" id="summary"></span>
+      </div>
+    </div>
+
+    <div id="view-day" class="card"></div>
+    <div id="view-week" class="card" style="display:none"></div>
+    <div id="view-month" class="card" style="display:none"></div>
+    <div id="view-crm" class="card" style="display:none"></div>
+    <div id="view-services" class="card" style="display:none"></div>
+  </div>
+
+  <footer>🔥 MVP hors ligne. Synchronisation Google Calendar possible dans une version cloud.</footer>
+
+<script>
+// --- Data layer (localStorage) ---
+const DB = {
+  load(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) ?? fallback }catch(e){ return fallback } },
+  save(key, val){ localStorage.setItem(key, JSON.stringify(val)); },
+};
+let clients = DB.load('babine_clients', []);
+let services = DB.load('babine_services', [
+  {id:'srv-face', name:'Soin facial', color:'#ff2fb3', duration:60},
+  {id:'srv-ipl', name:'IPL', color:'#2743e3', duration:45},
+  {id:'srv-dermaled', name:'Dermaled', color:'#00c9a7', duration:30},
+  {id:'srv-oxygeneo', name:'Oxygénéo', color:'#f0a500', duration:50}
+]);
+let appts = DB.load('babine_appts', []);
+
+function uid(){ return Math.random().toString(36).slice(2,10) }
+
+// --- UI State ---
+const datePicker = document.getElementById('datePicker');
+datePicker.valueAsDate = new Date();
+function switchView(v){
+  for (const id of ['day','week','month','crm','services']){
+    document.getElementById('view-'+id).style.display = (id===v?'block':'none');
+    document.getElementById('tab-'+id).classList.toggle('active', id===v);
+  }
+  render();
+}
+
+// --- CRUD Helpers ---
+function newClient(c={id:uid(), name:'', phone:'', email:'', address:''}){ editClient(c, true) }
+function editClient(c, isNew=false){
+  const name = prompt('Nom du client:', c.name??''); if(name===null) return;
+  const phone = prompt('Téléphone:', c.phone??''); if(phone===null) return;
+  const email = prompt('Courriel:', c.email??''); if(email===null) return;
+  const address = prompt('Adresse:', c.address??''); if(address===null) return;
+  const obj = {id:c.id, name, phone, email, address};
+  if(isNew) clients.push(obj); else Object.assign(c, obj);
+  DB.save('babine_clients', clients); render();
+}
+function deleteClient(id){
+  if(!confirm('Supprimer ce client?')) return;
+  clients = clients.filter(x=>x.id!==id);
+  DB.save('babine_clients', clients); render();
+}
+function newService(s={id:uid(), name:'', color:'#ff2fb3', duration:60}){ editService(s, true) }
+function editService(s, isNew=false){
+  const name = prompt('Nom du service:', s.name??''); if(name===null) return;
+  const color = prompt('Couleur (hex #rrggbb):', s.color??'#ff2fb3'); if(color===null) return;
+  const duration = parseInt(prompt('Durée (minutes):', s.duration??60)); if(!duration) return;
+  const obj = {id:s.id, name, color, duration};
+  if(isNew) services.push(obj); else Object.assign(s, obj);
+  DB.save('babine_services', services); render();
+}
+function deleteService(id){
+  if(!confirm('Supprimer ce service?')) return;
+  services = services.filter(x=>x.id!==id);
+  DB.save('babine_services', services); render();
+}
+function pickService(){
+  const list = services.map((s,i)=>`${i+1}. ${s.name}`).join('\n');
+  const idx = parseInt(prompt('Choisis un service:\n'+list)) - 1;
+  if(isNaN(idx) || idx<0 || idx>=services.length) return null;
+  return services[idx];
+}
+function pickClient(){
+  const list = clients.map((c,i)=>`${i+1}. ${c.name} (${c.phone||'—'})`).join('\n');
+  const idx = parseInt(prompt('Choisis un client:\n'+(list||'Aucun client. Annule et ajoute-en.'))) - 1;
+  if(isNaN(idx) || idx<0 || idx>=clients.length) return null;
+  return clients[idx];
+}
+function newAppt(){
+  const date = datePicker.value || new Date().toISOString().slice(0,10);
+  const start = prompt('Heure de début (HH:MM):','10:00'); if(start===null) return;
+  const srv = pickService(); if(!srv) return;
+  const cli = pickClient(); if(!cli) return;
+  const note = prompt('Notes (optionnel):','');
+  const startDate = new Date(date+'T'+start);
+  const endDate = new Date(startDate.getTime()+srv.duration*60000);
+  appts.push({id:uid(), date, start:start, end:endDate.toTimeString().slice(0,5), serviceId:srv.id, clientId:cli.id, note, paid:false, confirm:false});
+  DB.save('babine_appts', appts); render();
+}
+function editAppt(a){
+  const start = prompt('Heure de début (HH:MM):', a.start); if(start===null) return;
+  const srv = services.find(s=>s.id===a.serviceId);
+  const duration = parseInt(prompt('Durée (minutes):', srv?.duration ?? 60));
+  const note = prompt('Notes:', a.note??'');
+  const startDate = new Date(a.date+'T'+start);
+  const endDate = new Date(startDate.getTime()+duration*60000);
+  Object.assign(a, {start:start, end:endDate.toTimeString().slice(0,5), note});
+  DB.save('babine_appts', appts); render();
+}
+function toggleFlag(a, key){ a[key]=!a[key]; DB.save('babine_appts', appts); render(); }
+function deleteAppt(id){ if(!confirm('Supprimer ce rendez-vous?')) return; appts = appts.filter(x=>x.id!==id); DB.save('babine_appts', appts); render(); }
+
+// --- Renderers ---
+function byDate(d){ return appts.filter(a=>a.date===d).sort((x,y)=>x.start.localeCompare(y.start)) }
+function col(s){ return services.find(x=>x.id===s)?.color || '#ddd' }
+function srvName(s){ return services.find(x=>x.id===s)?.name || 'Service' }
+function cliName(c){ return clients.find(x=>x.id===c)?.name || 'Client' }
+
+function renderDay(){
+  const cont = document.getElementById('view-day');
+  const d = datePicker.value || new Date().toISOString().slice(0,10);
+  const list = byDate(d);
+  let html = `<h3>📅 ${d}</h3><div class="grid cols-3">`;
+  for(let h=8;h<20;h++){
+    for(let q of [0,30]){
+      const t = `${String(h).padStart(2,'0')}:${String(q).padStart(2,'0')}`;
+      const items = list.filter(a=>a.start===t);
+      html += `<div class="slot"><div class="hint">${t}</div>`;
+      for(const a of items){
+        html += eventHTML(a, true);
+      }
+      html += `</div>`;
+    }
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+
+function renderWeek(){
+  const cont = document.getElementById('view-week');
+  const current = new Date(datePicker.value);
+  const start = new Date(current); start.setDate(current.getDate() - ((current.getDay()+6)%7)); // Monday
+  let html = `<h3>🗓️ Semaine du ${start.toISOString().slice(0,10)}</h3><div class="grid cols-7">`;
+  for(let i=0;i<7;i++){
+    const day = new Date(start); day.setDate(start.getDate()+i);
+    const ds = day.toISOString().slice(0,10);
+    html += `<div class="slot"><b>${["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"][i]} ${ds}</b>`;
+    for(const a of byDate(ds)){
+      html += eventHTML(a, false);
+    }
+    html += `</div>`;
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+
+function renderMonth(){
+  const cont = document.getElementById('view-month');
+  const current = new Date(datePicker.value);
+  const first = new Date(current.getFullYear(), current.getMonth(), 1);
+  const start = new Date(first); start.setDate(1 - ((first.getDay()+6)%7)); // monday grid start
+  let html = `<h3>📆 ${current.toLocaleString('fr-CA',{month:'long', year:'numeric'})}</h3><div class="grid cols-7">`;
+  for(let i=0;i<42;i++){
+    const day = new Date(start); day.setDate(start.getDate()+i);
+    const ds = day.toISOString().slice(0,10);
+    html += `<div class="slot"><b style="font-size:12px">${day.getDate()}</b>`;
+    for(const a of byDate(ds)){
+      html += eventHTML(a, true);
+    }
+    html += `</div>`;
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+
+function eventHTML(a, small){
+  const c = col(a.serviceId);
+  const paid = a.paid ? "✅" : "💵";
+  const conf = a.confirm ? "📲" : "⌛";
+  return `<div class="event ${small?'small':''}" style="background:${hexToPastel(c)};border-left-color:${c}">
+    <div><b>${a.start}-${a.end}</b> • ${srvName(a.serviceId)}</div>
+    <div>${cliName(a.clientId)} ${paid} ${conf}</div>
+    <div class="row">
+      <button class="btn alt" onclick="editAppt(findAppt('${a.id}'))">Éditer</button>
+      <button class="btn alt" onclick="toggleFlag(findAppt('${a.id}'),'paid')">Payé</button>
+      <button class="btn alt" onclick="toggleFlag(findAppt('${a.id}'),'confirm')">Confirmer</button>
+      <button class="btn alt" onclick="deleteAppt('${a.id}')">Supprimer</button>
+    </div>
+  </div>`;
+}
+function hexToPastel(hex){
+  try{
+    const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+    const mix=220; // toward white-ish
+    const rr=Math.round((r+mix)/2), gg=Math.round((g+mix)/2), bb=Math.round((b+mix)/2);
+    return `rgb(${rr},${gg},${bb})`;
+  }catch(e){ return '#eef4ff' }
+}
+function findAppt(id){ return appts.find(x=>x.id===id) }
+
+function renderCRM(){
+  const cont = document.getElementById('view-crm');
+  let html = `<h3>👥 Clients</h3>`;
+  html += `<div class="grid cols-2">`;
+  for(const c of clients){
+    html += `<div class="slot">
+      <div><b>${c.name||'Sans nom'}</b></div>
+      <div class="hint">${c.phone||'—'} · ${c.email||'—'}</div>
+      <div class="hint">${c.address||''}</div>
+      <div class="row">
+        <button class="btn alt" onclick='editClient(findClient("${c.id}"))'>Éditer</button>
+        <button class="btn alt" onclick='deleteClient("${c.id}")'>Supprimer</button>
+        <button class="btn alt" onclick='quickBook("${c.id}")'>+ RDV</button>
+      </div>
+    </div>`;
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+function findClient(id){ return clients.find(x=>x.id===id) }
+function quickBook(clientId){
+  const date = datePicker.value || new Date().toISOString().slice(0,10);
+  const start = prompt('Heure de début (HH:MM):','10:00'); if(start===null) return;
+  const srv = pickService(); if(!srv) return;
+  appts.push({id:uid(), date, start, end:start, serviceId:srv.id, clientId, note:'', paid:false, confirm:false});
+  // fix end from duration
+  const startDate = new Date(date+'T'+start);
+  const endDate = new Date(startDate.getTime()+srv.duration*60000);
+  appts[appts.length-1].end = endDate.toTimeString().slice(0,5);
+  DB.save('babine_appts', appts); render();
+}
+
+function renderServices(){
+  const cont = document.getElementById('view-services');
+  let html = `<h3>🎨 Services (couleurs)</h3><div class="grid cols-2">`;
+  for(const s of services){
+    html += `<div class="slot">
+      <div><span class="k" style="background:${s.color}"></span><b>${s.name}</b></div>
+      <div class="hint">Durée: ${s.duration} min</div>
+      <div class="row">
+        <button class="btn alt" onclick='editService(findService("${s.id}"))'>Éditer</button>
+        <button class="btn alt" onclick='deleteService("${s.id}")'>Supprimer</button>
+      </div>
+    </div>`;
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+function findService(id){ return services.find(x=>x.id===id) }
+
+function renderSummary(){
+  const d = datePicker.value || new Date().toISOString().slice(0,10);
+  const list = byDate(d);
+  const total = list.length;
+  const mins = list.reduce((acc,a)=>{
+    const s=services.find(x=>x.id===a.serviceId)?.duration ?? 0;
+    return acc + s;
+  },0);
+  document.getElementById('summary').textContent = `${total} RDV • ${mins} min`;
+}
+
+function render(){
+  renderSummary();
+  document.getElementById('datePicker').onchange = render;
+  if(document.getElementById('view-day').style.display!=='none') renderDay();
+  if(document.getElementById('view-week').style.display!=='none') renderWeek();
+  if(document.getElementById('view-month').style.display!=='none') renderMonth();
+  if(document.getElementById('view-crm').style.display!=='none') renderCRM();
+  if(document.getElementById('view-services').style.display!=='none') renderServices();
+}
+
+window.addEventListener('load', ()=>{
+  render();
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
+});
+
+// Export all data
+function exportAll(){
+  const payload = {
+    clients, services, appts, exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'babine_export.json';
+  a.click();
+}
+
+// PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; });
+async function installPWA(){
+  if(deferredPrompt){ deferredPrompt.prompt(); }
+  else alert("Sur iPhone: Partager → ‘Ajouter à l’écran d’accueil’. Sur Android: tu verras ‘Installer l’app’.");
+}
+</script>
+</body>
 </html>
