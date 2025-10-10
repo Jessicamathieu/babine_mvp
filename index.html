@@ -6,6 +6,7 @@
   <title>Babine Assistante – MVP</title>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#ff2fb3">
+  <link rel="stylesheet" href="calendar_view.css">
   <style>
     html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:#fff7fc;color:#222}
     header{position:sticky;top:0;background:#ffffffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid #ffe0f2;padding:10px 12px;display:flex;align-items:center;gap:10px}
@@ -38,12 +39,13 @@
 </head>
 <body>
   <header>
-    <div class="avatar">💖</div>
+    <div class="avatar avatar-babine">💖</div>
     <div>
       <h1>Babine Assistante – Agenda & Clients</h1>
       <div class="hint">Ajoute / modifie des rendez-vous, clients, services (stockés dans ton téléphone).</div>
     </div>
     <div class="bar">
+      <button class="tts-button" id="tts-button"><span class="tts-icon">🎤</span> Parler</button>
       <button class="btn alt" onclick="exportAll()">Exporter</button>
       <button class="btn" onclick="installPWA()">Installer</button>
     </div>
@@ -355,5 +357,6 @@ async function installPWA(){
   else alert("Sur iPhone: Partager → ‘Ajouter à l’écran d’accueil’. Sur Android: tu verras ‘Installer l’app’.");
 }
 </script>
+<script src="calendar_view.js"></script>
 </body>
 </html>
