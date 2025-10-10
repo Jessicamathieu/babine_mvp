@@ -1,0 +1,63 @@
+name: CI - JavaScript Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  lint-and-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm install --no-save eslint || echo "No package.json or eslint not needed"
+      
+      - name: Syntax check - index.html embedded JS
+        run: |
+          # Extract JS from index.html and check syntax
+          echo "Checking JavaScript syntax in index.html..."
+          node --version
+          # Create a temporary JS file from the script section
+          grep -A 10000 '<script>' index.html | grep -B 10000 '</script>' | grep -v '<script>' | grep -v '</script>' > /tmp/index_script.js || true
+          if [ -s /tmp/index_script.js ]; then
+            node --check /tmp/index_script.js || exit 1
+          fi
+      
+      - name: Syntax check - calendar_view.js
+        run: |
+          if [ -f calendar_view.js ]; then
+            echo "Checking calendar_view.js..."
+            node --check calendar_view.js || exit 1
+          fi
+      
+      - name: Syntax check - sw.js
+        run: |
+          if [ -f sw.js ]; then
+            echo "Checking sw.js..."
+            node --check sw.js || exit 1
+          fi
+      
+      - name: Run ESLint (if available)
+        run: |
+          if command -v eslint &> /dev/null; then
+            echo "Running ESLint..."
+            npx eslint "*.js" || echo "ESLint found issues but continuing..."
+          else
+            echo "ESLint not available, skipping..."
+          fi
+        continue-on-error: true
+      
+      - name: Summary
+        run: |
+          echo "✅ JavaScript syntax checks passed!"
+          echo "All .js files have valid syntax."

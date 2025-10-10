@@ -1,0 +1,294 @@
+/* Calendar View - Positioned Week View with Overlap Handling */
+
+:root {
+  --cv-hour-start: 8;
+  --cv-hour-end: 20;
+  --cv-hour-height: 60px;
+  --cv-header-height: 40px;
+  --cv-border-color: #ffd0ea;
+  --cv-grid-color: #f9f9f9;
+}
+
+/* Week view container */
+.cv-week-container {
+  position: relative;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border: 1px solid var(--cv-border-color);
+  border-radius: 12px;
+  background: white;
+}
+
+/* Hour column (left side) */
+.cv-hour-column {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: white;
+  border-right: 2px solid var(--cv-border-color);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.cv-hour-header {
+  height: var(--cv-header-height);
+  border-bottom: 2px solid var(--cv-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #666;
+}
+
+.cv-hour-slot {
+  height: var(--cv-hour-height);
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  font-size: 11px;
+  color: #999;
+  background: #fafafa;
+}
+
+/* Day columns */
+.cv-day-column {
+  position: relative;
+  flex: 1;
+  min-width: 120px;
+  border-right: 1px solid #eee;
+}
+
+.cv-day-column:last-child {
+  border-right: none;
+}
+
+.cv-day-header {
+  height: var(--cv-header-height);
+  border-bottom: 2px solid var(--cv-border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  background: var(--cv-grid-color);
+  padding: 4px;
+}
+
+.cv-day-name {
+  font-weight: 700;
+  color: #333;
+}
+
+.cv-day-date {
+  font-size: 10px;
+  color: #666;
+  font-weight: 400;
+}
+
+.cv-day-grid {
+  position: relative;
+  height: calc(var(--cv-hour-height) * (var(--cv-hour-end) - var(--cv-hour-start)));
+}
+
+.cv-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #eee;
+  pointer-events: none;
+}
+
+/* Events */
+.cv-event {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #e6f0ff;
+  border-left: 4px solid #2743e3;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #111;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  z-index: 1;
+}
+
+.cv-event:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  z-index: 2;
+}
+
+.cv-event-time {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.cv-event-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-event-client {
+  font-size: 10px;
+  color: #555;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-event-icons {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 10px;
+}
+
+/* Animated Avatar */
+.avatar-animated {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffd6ef, #ff2fb3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.avatar-animated:hover {
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 47, 179, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 47, 179, 0);
+  }
+}
+
+.avatar-animated.speaking {
+  animation: speak 0.5s ease-in-out infinite;
+}
+
+@keyframes speak {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* TTS Button */
+.btn-tts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ff87d1;
+  background: #ff2fb3;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.btn-tts:hover {
+  background: #e02a9f;
+}
+
+.btn-tts:disabled {
+  background: #ccc;
+  border-color: #999;
+  cursor: not-allowed;
+}
+
+.btn-tts-icon {
+  font-size: 16px;
+}
+
+/* Mobile Responsive - Stack as cards when < 768px */
+@media (max-width: 767px) {
+  .cv-week-container {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+
+  .cv-hour-column {
+    display: none;
+  }
+
+  .cv-day-column {
+    min-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--cv-border-color);
+    margin-bottom: 8px;
+  }
+
+  .cv-day-column:last-child {
+    border-bottom: none;
+  }
+
+  .cv-day-header {
+    height: auto;
+    padding: 12px;
+    border-bottom: 1px solid var(--cv-border-color);
+  }
+
+  .cv-day-grid {
+    position: static;
+    height: auto;
+    padding: 8px;
+  }
+
+  .cv-event {
+    position: static;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .cv-event-time,
+  .cv-event-title,
+  .cv-event-client {
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .cv-hour-line {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .cv-event {
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .avatar-animated {
+    animation: none;
+  }
+}
