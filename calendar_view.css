@@ -1,0 +1,240 @@
+/* Calendar Week View - Positioned Events with Overlap Handling */
+
+:root {
+  --cv-hour-start: 8;
+  --cv-hour-end: 20;
+  --cv-hour-height: 60px;
+}
+
+/* Week view specific container */
+#view-week.positioned {
+  overflow-x: auto;
+}
+
+/* Grid container for week view with hour column */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  gap: 1px;
+  background: #ffd0ea;
+  border: 1px solid #ffd0ea;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  min-width: 800px;
+}
+
+/* Hour labels column */
+.calendar-hour-labels {
+  grid-column: 1;
+  background: #fff;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.calendar-hour-label {
+  height: var(--cv-hour-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #777;
+  border-bottom: 1px solid #ffe0f2;
+  font-weight: 500;
+}
+
+/* Day columns */
+.calendar-day-column {
+  background: #fff;
+  position: relative;
+  min-height: calc((var(--cv-hour-end) - var(--cv-hour-start)) * var(--cv-hour-height));
+}
+
+.calendar-day-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding: 8px 4px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  border-bottom: 2px solid #ff2fb3;
+  z-index: 5;
+}
+
+/* Hour grid lines */
+.calendar-hour-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.calendar-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--cv-hour-height);
+  border-bottom: 1px solid #ffe0f2;
+}
+
+/* Positioned events */
+.calendar-event {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 8px;
+  padding: 6px;
+  font-size: 11px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-event:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  z-index: 100;
+}
+
+.calendar-event-time {
+  font-weight: 600;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.calendar-event-title {
+  font-weight: 500;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event-client {
+  font-size: 10px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event-badges {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 10px;
+}
+
+/* Overlap handling - events side by side */
+.calendar-event.overlapping {
+  /* Width and left will be set inline based on overlap position */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .calendar-grid {
+    display: block;
+    min-width: 100%;
+  }
+  
+  .calendar-hour-labels {
+    display: none;
+  }
+  
+  .calendar-day-column {
+    border-bottom: 2px solid #ffd0ea;
+    margin-bottom: 8px;
+    min-height: auto;
+    padding: 8px;
+  }
+  
+  .calendar-day-header {
+    position: static;
+    margin-bottom: 8px;
+  }
+  
+  .calendar-hour-grid {
+    display: none;
+  }
+  
+  .calendar-event {
+    position: static;
+    margin-bottom: 8px;
+    left: auto;
+    right: auto;
+    width: auto;
+  }
+  
+  .calendar-event:hover {
+    transform: none;
+  }
+}
+
+/* Avatar animation */
+.avatar-babine {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffd6ef, #ff2fb3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar-babine::after {
+  content: '💖';
+  font-size: 24px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.avatar-babine.speaking::after {
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* TTS Button */
+.tts-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ff87d1;
+  background: #fff;
+  color: #ff2fb3;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.tts-button:hover {
+  background: #fff7fc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(255, 47, 179, 0.2);
+}
+
+.tts-button:active {
+  transform: translateY(0);
+}
+
+.tts-button.speaking {
+  background: #ff2fb3;
+  color: #fff;
+}
