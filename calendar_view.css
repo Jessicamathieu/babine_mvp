@@ -1,0 +1,266 @@
+/* Calendar View - Hourly Grid Styles */
+:root {
+  --cv-hour-start: 8;
+  --cv-hour-end: 20;
+  --cv-hour-height: 60px;
+}
+
+/* Week View Grid with time positioning */
+.calendar-week-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  gap: 1px;
+  background: #ffd0ea;
+  border: 1px solid #ffd0ea;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Hour column (left side) */
+.calendar-hour-label {
+  grid-column: 1;
+  background: #fff;
+  padding: 8px 4px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  border-bottom: 1px solid #ffd0ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--cv-hour-height);
+}
+
+/* Day columns */
+.calendar-day-column {
+  background: #fff;
+  position: relative;
+  min-height: calc((var(--cv-hour-end) - var(--cv-hour-start)) * var(--cv-hour-height));
+  border-right: 1px solid #ffd0ea;
+}
+
+.calendar-day-column:last-child {
+  border-right: none;
+}
+
+/* Day header */
+.calendar-day-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 2px solid #ff2fb3;
+  padding: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  z-index: 10;
+}
+
+/* Hour lines in day columns */
+.calendar-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ffeef8;
+  pointer-events: none;
+}
+
+/* Events with time-based positioning */
+.calendar-event {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  background: #e6f0ff;
+  border: 1px solid #2743e3;
+  border-left: 4px solid #2743e3;
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 11px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+.calendar-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.calendar-event-time {
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event-title {
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event-client {
+  color: #666;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Overlap handling - events side by side */
+.calendar-event.overlap-2 {
+  width: calc(50% - 6px);
+}
+
+.calendar-event.overlap-3 {
+  width: calc(33.33% - 6px);
+}
+
+.calendar-event.overlap-4 {
+  width: calc(25% - 6px);
+}
+
+.calendar-event.overlap-offset-1 {
+  left: calc(50% + 2px);
+}
+
+.calendar-event.overlap-offset-2 {
+  left: calc(66.66% + 2px);
+}
+
+.calendar-event.overlap-offset-3 {
+  left: calc(75% + 2px);
+}
+
+/* Pills for status indicators */
+.calendar-event-pills {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.calendar-event-pill {
+  display: inline-block;
+  padding: 1px 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+/* Responsive: mobile view */
+@media (max-width: 720px) {
+  .calendar-week-grid {
+    display: block;
+  }
+  
+  .calendar-hour-label {
+    display: none;
+  }
+  
+  .calendar-day-column {
+    min-height: auto;
+    margin-bottom: 12px;
+    border: 1px solid #ffd0ea;
+    border-radius: 8px;
+    padding: 8px;
+  }
+  
+  .calendar-day-header {
+    position: static;
+    border-bottom: 1px solid #ffd0ea;
+    margin-bottom: 8px;
+  }
+  
+  .calendar-event {
+    position: static;
+    width: auto !important;
+    margin-bottom: 8px;
+    left: auto !important;
+    right: auto;
+  }
+  
+  .calendar-event-time,
+  .calendar-event-title,
+  .calendar-event-client {
+    white-space: normal;
+  }
+}
+
+/* Babine Avatar Animation */
+.avatar.animated {
+  animation: babine-pulse 2s ease-in-out infinite;
+}
+
+@keyframes babine-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.avatar.speaking {
+  animation: babine-speak 0.5s ease-in-out infinite;
+}
+
+@keyframes babine-speak {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.08) rotate(-2deg);
+  }
+  75% {
+    transform: scale(1.08) rotate(2deg);
+  }
+}
+
+/* TTS Button in header */
+.tts-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ff2fb3;
+  background: #fff;
+  color: #ff2fb3;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.tts-button:hover {
+  background: #ff2fb3;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.tts-button:active {
+  transform: scale(0.95);
+}
+
+.tts-button.speaking {
+  animation: tts-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes tts-pulse {
+  0%, 100% {
+    transform: scale(1);
+    border-color: #ff2fb3;
+  }
+  50% {
+    transform: scale(1.15);
+    border-color: #ff87d1;
+  }
+}

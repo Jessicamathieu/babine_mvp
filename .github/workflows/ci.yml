@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Check JavaScript syntax
+      run: |
+        echo "Checking JavaScript files for syntax errors..."
+        EXIT_CODE=0
+        
+        # Check all JS files in the repository
+        for file in $(find . -name "*.js" -not -path "./node_modules/*" -not -path "./.git/*"); do
+          echo "Checking $file..."
+          if ! node --check "$file"; then
+            echo "❌ Syntax error in $file"
+            EXIT_CODE=1
+          else
+            echo "✅ $file is valid"
+          fi
+        done
+        
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "Build failed due to JavaScript syntax errors"
+          exit 1
+        fi
+        
+        echo "All JavaScript files passed syntax check!"
+    
+    - name: Run ESLint (if present)
+      run: |
+        if [ -f "package.json" ] && grep -q "eslint" package.json; then
+          echo "ESLint found in package.json, installing dependencies..."
+          npm install
+          echo "Running ESLint..."
+          npm run lint || echo "ESLint failed, but continuing (optional check)"
+        else
+          echo "No ESLint configuration found, skipping..."
+        fi
+      continue-on-error: true
