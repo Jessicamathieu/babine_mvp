@@ -1,0 +1,51 @@
+name: CI - Syntax Check
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies (if needed)
+      run: |
+        if [ -f package.json ]; then
+          npm ci || npm install
+        fi
+        
+    - name: JavaScript syntax check
+      run: |
+        echo "Running syntax check on JavaScript files..."
+        for file in *.js; do
+          if [ -f "$file" ]; then
+            echo "Checking $file"
+            node --check "$file" || exit 1
+          fi
+        done
+        echo "All JavaScript files passed syntax check!"
+        
+    - name: ESLint (if configured)
+      continue-on-error: true
+      run: |
+        if [ -f .eslintrc.js ] || [ -f .eslintrc.json ] || [ -f package.json ]; then
+          if command -v eslint &> /dev/null || [ -f node_modules/.bin/eslint ]; then
+            echo "Running ESLint..."
+            npx eslint . --ext .js || echo "ESLint found issues (non-blocking)"
+          else
+            echo "ESLint not configured, skipping."
+          fi
+        else
+          echo "ESLint not configured, skipping."
+        fi
