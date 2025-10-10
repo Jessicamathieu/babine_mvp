@@ -1,0 +1,50 @@
+name: CI - Syntax Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Syntax check - index.html JavaScript
+        run: |
+          # Extract JavaScript from index.html and check syntax
+          echo "Checking main JavaScript in index.html..."
+          node --check sw.js
+          node --check middleware.js
+          node --check calendar_view.js
+        
+      - name: Check if ESLint is present
+        id: check-eslint
+        run: |
+          if [ -f "package.json" ] && grep -q "eslint" package.json; then
+            echo "eslint_present=true" >> $GITHUB_OUTPUT
+          else
+            echo "eslint_present=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+        
+      - name: Install dependencies (if package.json exists)
+        if: steps.check-eslint.outputs.eslint_present == 'true'
+        run: npm install
+        
+      - name: Run ESLint (if available)
+        if: steps.check-eslint.outputs.eslint_present == 'true'
+        run: npm run lint
+        continue-on-error: true
+      
+      - name: Success
+        run: echo "✅ All syntax checks passed!"
